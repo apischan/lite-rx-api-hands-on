@@ -17,80 +17,81 @@ public class Part01Flux {
 
 //========================================================================================
 
-	@Test
-	public void empty() {
-		Flux<String> flux = emptyFlux();
+    @Test
+    public void empty() {
+        Flux<String> flux = emptyFlux();
 
-		StepVerifier.create(flux)
-				.expectComplete()
-				.verify();
-	}
+        StepVerifier.create(flux)
+                .expectComplete()
+                .verify();
+    }
 
-	// TODO Return an empty Flux
-	Flux<String> emptyFlux() {
-		return null;
-	}
-
-//========================================================================================
-
-	@Test
-	public void fromValues() {
-		Flux<String> flux = fooBarFluxFromValues();
-		StepVerifier.create(flux)
-				.expectNext("foo", "bar")
-				.expectComplete()
-				.verify();
-	}
-
-	// TODO Return a Flux that contains 2 values "foo" and "bar" without using an array or a collection
-	Flux<String> fooBarFluxFromValues() {
-		return null;
-	}
+    // TODO Return an empty Flux
+    private Flux<String> emptyFlux() {
+        return null;
+    }
 
 //========================================================================================
 
-	@Test
-	public void fromList() {
-		Flux<String> flux = fooBarFluxFromList();
-		StepVerifier.create(flux)
-				.expectNext("foo", "bar")
-				.expectComplete()
-				.verify();
-	}
+    @Test
+    public void fromValues() {
+        Flux<String> flux = fooBarFluxFromValues();
+        StepVerifier.create(flux)
+                .expectNext("foo", "bar")
+                .expectComplete()
+                .verify();
+    }
 
-	// TODO Create a Flux from a List that contains 2 values "foo" and "bar"
-	Flux<String> fooBarFluxFromList() {
-		return null;
-	}
-
-//========================================================================================
-
-	@Test
-	public void error() {
-		Flux<String> flux = errorFlux();
-		StepVerifier.create(flux)
-				.expectError(IllegalStateException.class)
-				.verify();
-	}
-	// TODO Create a Flux that emits an IllegalStateException
-	Flux<String> errorFlux() {
-		return null;
-	}
+    // TODO Return a Flux that contains 2 values "foo" and "bar" without using an array or a collection
+    private Flux<String> fooBarFluxFromValues() {
+        return null;
+    }
 
 //========================================================================================
 
-	@Test
-	public void countEach100ms() {
-		Flux<Long> flux = counter();
-		StepVerifier.create(flux)
-				.expectNext(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)
-				.expectComplete()
-				.verify();
-	}
+    @Test
+    public void fromList() {
+        Flux<String> flux = fooBarFluxFromList();
+        StepVerifier.create(flux)
+                .expectNext("foo", "bar")
+                .expectComplete()
+                .verify();
+    }
 
-	// TODO Create a Flux that emits increasing values from 0 to 9 each 100ms
-	Flux<Long> counter() {
-		return null;
-	}
+    // TODO Create a Flux from a List that contains 2 values "foo" and "bar"
+    private Flux<String> fooBarFluxFromList() {
+        return null;
+    }
+
+//========================================================================================
+
+    @Test
+    public void error() {
+        Flux<String> flux = errorFlux();
+        StepVerifier.create(flux)
+                .expectError(IllegalStateException.class)
+                .verify();
+    }
+
+    // TODO Create a Flux that emits an IllegalStateException
+    private Flux<String> errorFlux() {
+        return null;
+    }
+
+//========================================================================================
+
+    @Test
+    public void countEach100ms() {
+        Flux<Long> flux = counter();
+        StepVerifier.create(flux)
+                .expectNext(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)
+                .expectComplete()
+                .verify();
+    }
+
+    // TODO Create a Flux that emits increasing values from 0 to 9 each 100ms
+    private Flux<Long> counter() {
+        return null;
+    }
 
 }

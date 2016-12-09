@@ -16,66 +16,66 @@ public class Part02Mono {
 
 //========================================================================================
 
-	@Test
-	public void empty() {
-		Mono<String> mono = emptyMono();
-		StepVerifier.create(mono)
-				.expectComplete()
-				.verify();
-	}
+    @Test
+    public void empty() {
+        Mono<String> mono = emptyMono();
+        StepVerifier.create(mono)
+                .expectComplete()
+                .verify();
+    }
 
-	// TODO Return an empty Mono
-	Mono<String> emptyMono() {
-		return null;
-	}
-
-//========================================================================================
-
-	@Test
-	public void noSignal() {
-		Mono<String> mono = monoWithNoSignal();
-		StepVerifier
-				.create(mono)
-				.expectSubscription()
-				.expectNoEvent(Duration.ofSeconds(1))
-				.thenCancel()
-				.verify();
-	}
-
-	// TODO Return an Mono that never emit any signal
-	Mono<String> monoWithNoSignal() {
-		return null;
-	}
+    // TODO Return an empty Mono
+    private Mono<String> emptyMono() {
+        return null;
+    }
 
 //========================================================================================
 
-	@Test
-	public void fromValue() {
-		Mono<String> mono = fooMono();
-		StepVerifier.create(mono)
-				.expectNext("foo")
-				.expectComplete()
-				.verify();
-	}
+    @Test
+    public void noSignal() {
+        Mono<String> mono = monoWithNoSignal();
+        StepVerifier
+                .create(mono)
+                .expectSubscription()
+                .expectNoEvent(Duration.ofSeconds(1))
+                .thenCancel()
+                .verify();
+    }
 
-	// TODO Return a Mono that contains a "foo" value
-	Mono<String> fooMono() {
-		return null;
-	}
+    // TODO Return an Mono that never emit any signal
+    private Mono<String> monoWithNoSignal() {
+        return null;
+    }
 
 //========================================================================================
 
-	@Test
-	public void error() {
-		Mono<String> mono = errorMono();
-		StepVerifier.create(mono)
-				.expectError(IllegalStateException.class)
-				.verify();
-	}
+    @Test
+    public void fromValue() {
+        Mono<String> mono = fooMono();
+        StepVerifier.create(mono)
+                .expectNext("foo")
+                .expectComplete()
+                .verify();
+    }
 
-	// TODO Create a Mono that emits an IllegalStateException
-	Mono<String> errorMono() {
-		return null;
-	}
+    // TODO Return a Mono that contains a "foo" value
+    private Mono<String> fooMono() {
+        return null;
+    }
+
+//========================================================================================
+
+    @Test
+    public void error() {
+        Mono<String> mono = errorMono();
+        StepVerifier.create(mono)
+                .expectError(IllegalStateException.class)
+                .verify();
+    }
+
+    // TODO Create a Mono that emits an IllegalStateException
+    private Mono<String> errorMono() {
+        return null;
+    }
 
 }
