@@ -1,8 +1,9 @@
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
 import io.pivotal.literx.domain.User;
 import io.pivotal.literx.repository.ReactiveRepository;
 import io.pivotal.literx.repository.ReactiveUserRepository;
+import io.pivotal.literx.testing.TransformTesting;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -17,20 +18,17 @@ public class Part04Transform {
 
     private ReactiveRepository<User> repository = new ReactiveUserRepository();
 
+    private TransformTesting transformTesting = new TransformTesting();
+
 //========================================================================================
 
     @Test
     public void transformMono() {
         Mono<User> mono = repository.findFirst();
-        StepVerifier.create(capitalizeOne(mono))
+        StepVerifier.create(transformTesting.capitalizeOne(mono))
                 .expectNext(new User("SWHITE", "SKYLER", "WHITE"))
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Capitalize the user username, firstname and lastname
-    private Mono<User> capitalizeOne(Mono<User> mono) {
-        return null;
     }
 
 //========================================================================================
@@ -38,7 +36,7 @@ public class Part04Transform {
     @Test
     public void transformFlux() {
         Flux<User> flux = repository.findAll();
-        StepVerifier.create(capitalizeMany(flux))
+        StepVerifier.create(transformTesting.capitalizeMany(flux))
                 .expectNext(
                         new User("SWHITE", "SKYLER", "WHITE"),
                         new User("JPINKMAN", "JESSE", "PINKMAN"),
@@ -46,11 +44,6 @@ public class Part04Transform {
                         new User("SGOODMAN", "SAUL", "GOODMAN"))
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Capitalize the users username, firstName and lastName
-    private Flux<User> capitalizeMany(Flux<User> flux) {
-        return null;
     }
 
 //========================================================================================
@@ -58,7 +51,7 @@ public class Part04Transform {
     @Test
     public void asyncTransformFlux() {
         Flux<User> flux = repository.findAll();
-        StepVerifier.create(asyncCapitalizeMany(flux))
+        StepVerifier.create(transformTesting.asyncCapitalizeMany(flux))
                 .expectNext(
                         new User("SWHITE", "SKYLER", "WHITE"),
                         new User("JPINKMAN", "JESSE", "PINKMAN"),
@@ -66,15 +59,6 @@ public class Part04Transform {
                         new User("SGOODMAN", "SAUL", "GOODMAN"))
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Capitalize the users username, firstName and lastName using asyncCapitalizeUser()
-    private Flux<User> asyncCapitalizeMany(Flux<User> flux) {
-        return null;
-    }
-
-    Mono<User> asyncCapitalizeUser(User u) {
-        return Mono.just(new User(u.getUsername().toUpperCase(), u.getFirstname().toUpperCase(), u.getLastname().toUpperCase()));
     }
 
 }

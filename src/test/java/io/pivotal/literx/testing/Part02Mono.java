@@ -1,7 +1,8 @@
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
 import java.time.Duration;
 
+import io.pivotal.literx.testing.MonoTesting;
 import org.junit.Test;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
@@ -14,26 +15,23 @@ import reactor.test.StepVerifier;
  */
 public class Part02Mono {
 
+    private MonoTesting monoTesting = new MonoTesting();
+
 //========================================================================================
 
     @Test
     public void empty() {
-        Mono<String> mono = emptyMono();
+        Mono<String> mono = monoTesting.emptyMono();
         StepVerifier.create(mono)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Return an empty Mono
-    private Mono<String> emptyMono() {
-        return null;
     }
 
 //========================================================================================
 
     @Test
     public void noSignal() {
-        Mono<String> mono = monoWithNoSignal();
+        Mono<String> mono = monoTesting.monoWithNoSignal();
         StepVerifier
                 .create(mono)
                 .expectSubscription()
@@ -42,40 +40,25 @@ public class Part02Mono {
                 .verify();
     }
 
-    // TODO Return an Mono that never emit any signal
-    private Mono<String> monoWithNoSignal() {
-        return null;
-    }
-
 //========================================================================================
 
     @Test
     public void fromValue() {
-        Mono<String> mono = fooMono();
+        Mono<String> mono = monoTesting.fooMono();
         StepVerifier.create(mono)
                 .expectNext("foo")
                 .expectComplete()
                 .verify();
     }
 
-    // TODO Return a Mono that contains a "foo" value
-    private Mono<String> fooMono() {
-        return null;
-    }
-
 //========================================================================================
 
     @Test
     public void error() {
-        Mono<String> mono = errorMono();
+        Mono<String> mono = monoTesting.errorMono();
         StepVerifier.create(mono)
                 .expectError(IllegalStateException.class)
                 .verify();
-    }
-
-    // TODO Create a Mono that emits an IllegalStateException
-    private Mono<String> errorMono() {
-        return null;
     }
 
 }

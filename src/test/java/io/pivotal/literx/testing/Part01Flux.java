@@ -1,8 +1,6 @@
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
-import java.time.Duration;
-import java.util.Arrays;
-
+import io.pivotal.literx.testing.FluxTesting;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
@@ -15,83 +13,60 @@ import reactor.test.StepVerifier;
  */
 public class Part01Flux {
 
+    private FluxTesting fluxTesting = new FluxTesting();
+
 //========================================================================================
 
     @Test
     public void empty() {
-        Flux<String> flux = emptyFlux();
+        Flux<String> flux = fluxTesting.emptyFlux();
 
         StepVerifier.create(flux)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Return an empty Flux
-    private Flux<String> emptyFlux() {
-        return null;
     }
 
 //========================================================================================
 
     @Test
     public void fromValues() {
-        Flux<String> flux = fooBarFluxFromValues();
+        Flux<String> flux = fluxTesting.fooBarFluxFromValues();
         StepVerifier.create(flux)
                 .expectNext("foo", "bar")
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Return a Flux that contains 2 values "foo" and "bar" without using an array or a collection
-    private Flux<String> fooBarFluxFromValues() {
-        return null;
     }
 
 //========================================================================================
 
     @Test
     public void fromList() {
-        Flux<String> flux = fooBarFluxFromList();
+        Flux<String> flux = fluxTesting.fooBarFluxFromList();
         StepVerifier.create(flux)
                 .expectNext("foo", "bar")
                 .expectComplete()
                 .verify();
     }
 
-    // TODO Create a Flux from a List that contains 2 values "foo" and "bar"
-    private Flux<String> fooBarFluxFromList() {
-        return null;
-    }
-
 //========================================================================================
 
     @Test
     public void error() {
-        Flux<String> flux = errorFlux();
+        Flux<String> flux = fluxTesting.errorFlux();
         StepVerifier.create(flux)
                 .expectError(IllegalStateException.class)
                 .verify();
-    }
-
-    // TODO Create a Flux that emits an IllegalStateException
-    private Flux<String> errorFlux() {
-        return null;
     }
 
 //========================================================================================
 
     @Test
     public void countEach100ms() {
-        Flux<Long> flux = counter();
+        Flux<Long> flux = fluxTesting.counter();
         StepVerifier.create(flux)
                 .expectNext(0L, 1L, 2L, 3L, 4L, 5L, 6L, 7L, 8L, 9L)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Create a Flux that emits increasing values from 0 to 9 each 100ms
-    private Flux<Long> counter() {
-        return null;
     }
 
 }

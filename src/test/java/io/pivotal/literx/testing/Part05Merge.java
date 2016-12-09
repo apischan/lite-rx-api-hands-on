@@ -1,8 +1,9 @@
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
 import io.pivotal.literx.domain.User;
 import io.pivotal.literx.repository.ReactiveRepository;
 import io.pivotal.literx.repository.ReactiveUserRepository;
+import io.pivotal.literx.testing.MergeTesting;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,36 +22,28 @@ public class Part05Merge {
     private ReactiveRepository<User> repository1 = new ReactiveUserRepository(500);
     private ReactiveRepository<User> repository2 = new ReactiveUserRepository(MARIE, MIKE);
 
+    private MergeTesting mergeTesting = new MergeTesting();
+
 //========================================================================================
 
     @Test
     public void mergeWithInterleave() {
-        Flux<User> flux = mergeFluxWithInterleave(repository1.findAll(), repository2.findAll());
+        Flux<User> flux = mergeTesting.mergeFluxWithInterleave(repository1.findAll(), repository2.findAll());
         StepVerifier.create(flux)
                 .expectNext(MARIE, MIKE, User.SKYLER, User.JESSE, User.WALTER, User.SAUL)
                 .expectComplete()
                 .verify();
     }
 
-    // TODO Merge flux1 and flux2 values with interleave
-    private Flux<User> mergeFluxWithInterleave(Flux<User> flux1, Flux<User> flux2) {
-        return null;
-    }
-
 //========================================================================================
 
     @Test
     public void mergeWithNoInterleave() {
-        Flux<User> flux = mergeFluxWithNoInterleave(repository1.findAll(), repository2.findAll());
+        Flux<User> flux = mergeTesting.mergeFluxWithNoInterleave(repository1.findAll(), repository2.findAll());
         StepVerifier.create(flux)
                 .expectNext(User.SKYLER, User.JESSE, User.WALTER, User.SAUL, MARIE, MIKE)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Merge flux1 and flux2 values with no interleave (flux1 values and then flux2 values)
-    private Flux<User> mergeFluxWithNoInterleave(Flux<User> flux1, Flux<User> flux2) {
-        return null;
     }
 
 //========================================================================================
@@ -59,16 +52,11 @@ public class Part05Merge {
     public void multipleMonoToFlux() {
         Mono<User> skylerMono = repository1.findFirst();
         Mono<User> marieMono = repository2.findFirst();
-        Flux<User> flux = createFluxFromMultipleMono(skylerMono, marieMono);
+        Flux<User> flux = mergeTesting.createFluxFromMultipleMono(skylerMono, marieMono);
         StepVerifier.create(flux)
                 .expectNext(User.SKYLER, MARIE)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Create a Flux containing the value of mono1 then the value of mono2
-    private Flux<User> createFluxFromMultipleMono(Mono<User> mono1, Mono<User> mono2) {
-        return null;
     }
 
 }

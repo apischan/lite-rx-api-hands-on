@@ -1,0 +1,31 @@
+package io.pivotal.literx.testing;
+
+import reactor.core.publisher.Flux;
+
+class FluxTesting {
+
+    // TODO Return an empty Flux
+    Flux<String> emptyFlux() {
+        return null;
+    }
+
+    // TODO Return a Flux that contains 2 values "foo" and "bar" without using an array or a collection
+    Flux<String> fooBarFluxFromValues() {
+        return null;
+    }
+
+    // TODO Create a Flux from a List that contains 2 values "foo" and "bar"
+    Flux<String> fooBarFluxFromList() {
+        return null;
+    }
+
+    // TODO Create a Flux that emits an IllegalStateException
+    Flux<String> errorFlux() {
+        return null;
+    }
+
+    // TODO Create a Flux that emits increasing values from 0 to 9 each 100ms
+    Flux<Long> counter() {
+        return null;
+    }
+}

@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import io.pivotal.literx.domain.User;
 import io.pivotal.literx.repository.ReactiveRepository;
 import io.pivotal.literx.repository.ReactiveUserRepository;
-import io.reactivex.BackpressureStrategy;
+import io.pivotal.literx.testing.AdaptTesting;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -47,26 +46,18 @@ public class Part09Adapt {
 
     private ReactiveRepository<User> repository = new ReactiveUserRepository();
 
+    private AdaptTesting adaptTesting = new AdaptTesting();
+
 //========================================================================================
 
     @Test
     public void adaptToFlowable() {
         Flux<User> flux = repository.findAll();
-        Flowable<User> observable = fromFluxToFlowable(flux);
-        StepVerifier.create(fromFlowableToFlux(observable))
+        Flowable<User> observable = adaptTesting.fromFluxToFlowable(flux);
+        StepVerifier.create(adaptTesting.fromFlowableToFlux(observable))
                 .expectNext(User.SKYLER, User.JESSE, User.WALTER, User.SAUL)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Adapt Flux to RxJava Flowable
-    private Flowable<User> fromFluxToFlowable(Flux<User> flux) {
-        return null;
-    }
-
-    // TODO Adapt RxJava Flowable to Flux
-    private Flux<User> fromFlowableToFlux(Flowable<User> flowable) {
-        return null;
     }
 
 //========================================================================================
@@ -74,21 +65,11 @@ public class Part09Adapt {
     @Test
     public void adaptToObservable() {
         Flux<User> flux = repository.findAll();
-        Observable<User> observable = fromFluxToObservable(flux);
-        StepVerifier.create(fromObservableToFlux(observable))
+        Observable<User> observable = adaptTesting.fromFluxToObservable(flux);
+        StepVerifier.create(adaptTesting.fromObservableToFlux(observable))
                 .expectNext(User.SKYLER, User.JESSE, User.WALTER, User.SAUL)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Adapt Flux to RxJava Observable
-    private Observable<User> fromFluxToObservable(Flux<User> flux) {
-        return null;
-    }
-
-    // TODO Adapt RxJava Observable to Flux
-    private Flux<User> fromObservableToFlux(Observable<User> observable) {
-        return null;
     }
 
 //========================================================================================
@@ -96,21 +77,11 @@ public class Part09Adapt {
     @Test
     public void adaptToSingle() {
         Mono<User> mono = repository.findFirst();
-        Single<User> single = fromMonoToSingle(mono);
-        StepVerifier.create(fromSingleToMono(single))
+        Single<User> single = adaptTesting.fromMonoToSingle(mono);
+        StepVerifier.create(adaptTesting.fromSingleToMono(single))
                 .expectNext(User.SKYLER)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Adapt Mono to RxJava Single
-    private Single<User> fromMonoToSingle(Mono<User> mono) {
-        return null;
-    }
-
-    // TODO Adapt RxJava Single to Mono
-    private Mono<User> fromSingleToMono(Single<User> single) {
-        return null;
     }
 
 //========================================================================================
@@ -118,21 +89,11 @@ public class Part09Adapt {
     @Test
     public void adaptToCompletableFuture() {
         Mono<User> mono = repository.findFirst();
-        CompletableFuture<User> future = fromMonoToCompletableFuture(mono);
-        StepVerifier.create(fromCompletableFutureToMono(future))
+        CompletableFuture<User> future = adaptTesting.fromMonoToCompletableFuture(mono);
+        StepVerifier.create(adaptTesting.fromCompletableFutureToMono(future))
                 .expectNext(User.SKYLER)
                 .expectComplete()
                 .verify();
-    }
-
-    // TODO Adapt Mono to Java 8+ CompletableFuture
-    private CompletableFuture<User> fromMonoToCompletableFuture(Mono<User> mono) {
-        return null;
-    }
-
-    // TODO Adapt Java 8+ CompletableFuture to Mono
-    private Mono<User> fromCompletableFutureToMono(CompletableFuture<User> future) {
-        return null;
     }
 
 }

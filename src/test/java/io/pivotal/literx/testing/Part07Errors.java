@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
-import java.time.Duration;
 import java.util.function.Function;
 
 import io.pivotal.literx.domain.User;
+import io.pivotal.literx.testing.ErrorsTesting;
 import org.junit.Test;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Hooks;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import static io.pivotal.literx.testing.ErrorsTesting.*;
 
 /**
  * Learn how to deal with errors.
@@ -36,74 +38,51 @@ import reactor.test.StepVerifier;
  */
 public class Part07Errors {
 
+    private ErrorsTesting errorsTesting = new ErrorsTesting();
+
 //========================================================================================
 
     @Test
     public void monoWithValueInsteadOfError() {
-        Mono<User> mono = betterCallSaulForBogusMono(Mono.error(new IllegalStateException()));
+        Mono<User> mono = errorsTesting.betterCallSaulForBogusMono(Mono.error(new IllegalStateException()));
         StepVerifier.create(mono)
                 .expectNext(User.SAUL)
                 .expectComplete()
                 .verify();
 
-        mono = betterCallSaulForBogusMono(Mono.just(User.SKYLER));
+        mono = errorsTesting.betterCallSaulForBogusMono(Mono.just(User.SKYLER));
         StepVerifier.create(mono)
                 .expectNext(User.SKYLER)
                 .expectComplete()
                 .verify();
     }
 
-    // TODO Return a Mono<User> containing User.SAUL when an error occurs in the input Mono, else do not change the input Mono.
-    private Mono<User> betterCallSaulForBogusMono(Mono<User> mono) {
-        return null;
-    }
-
 //========================================================================================
 
     @Test
     public void fluxWithValueInsteadOfError() {
-        Flux<User> flux = betterCallSaulAndJesseForBogusFlux(Flux.error(new IllegalStateException()));
+        Flux<User> flux = errorsTesting.betterCallSaulAndJesseForBogusFlux(Flux.error(new IllegalStateException()));
         StepVerifier.create(flux)
                 .expectNext(User.SAUL, User.JESSE)
                 .expectComplete()
                 .verify();
 
-        flux = betterCallSaulAndJesseForBogusFlux(Flux.just(User.SKYLER, User.WALTER));
+        flux = errorsTesting.betterCallSaulAndJesseForBogusFlux(Flux.just(User.SKYLER, User.WALTER));
         StepVerifier.create(flux)
                 .expectNext(User.SKYLER, User.WALTER)
                 .expectComplete()
                 .verify();
     }
 
-    // TODO Return a Flux<User> containing User.SAUL and User.JESSE when an error occurs in the input Flux, else do not change the input Flux.
-    private Flux<User> betterCallSaulAndJesseForBogusFlux(Flux<User> flux) {
-        return null;
-    }
-
 //========================================================================================
 
     @Test
     public void handleCheckedExceptions() {
-        Flux<User> flux = capitalizeMany(Flux.just(User.SAUL, User.JESSE));
+        Flux<User> flux = errorsTesting.capitalizeMany(Flux.just(User.SAUL, User.JESSE));
 
         StepVerifier.create(flux)
                 .expectError(GetOutOfHereException.class)
                 .verify();
-    }
-
-    // TODO Implement a method that capitalize each user of the incoming flux using the capitalizeUser() method and emit an error containing a GetOutOfHereException exception
-    private Flux<User> capitalizeMany(Flux<User> flux) {
-        return null;
-    }
-
-    User capitalizeUser(User user) throws GetOutOfHereException {
-        if (user.equals(User.SAUL)) {
-            throw new GetOutOfHereException();
-        }
-        return new User(user.getUsername(), user.getFirstname(), user.getLastname());
-    }
-
-    private class GetOutOfHereException extends Exception {
     }
 
 }

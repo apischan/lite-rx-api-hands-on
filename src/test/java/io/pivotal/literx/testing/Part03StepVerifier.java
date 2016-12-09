@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package io.pivotal.literx;
+package io.pivotal.literx.testing;
 
 import java.time.Duration;
-import java.util.function.Supplier;
 
 import io.pivotal.literx.domain.User;
 
 import static org.junit.Assert.fail;
 
+import io.pivotal.literx.testing.StepVerifierTesting;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 /**
  * Learn how to use StepVerifier to test Mono, Flux or any other kind of Reactive Streams Publisher.
@@ -36,64 +35,41 @@ import reactor.test.StepVerifier;
  */
 public class Part03StepVerifier {
 
+    private StepVerifierTesting stepVerifierTesting = new StepVerifierTesting();
+
 //========================================================================================
 
     @Test
     public void expectElementsThenComplete() {
-        expectFooBarComplete(Flux.just("foo", "bar"));
-    }
-
-    // TODO Use StepVerifier to check that the flux parameter emits "foo" and "bar" elements then completes successfully.
-    private void expectFooBarComplete(Flux<String> flux) {
-        fail();
+        stepVerifierTesting.expectFooBarComplete(Flux.just("foo", "bar"));
     }
 
 //========================================================================================
 
     @Test
     public void expect2ElementsThenError() {
-        expectFooBarError(Flux.just("foo", "bar").concatWith(Mono.error(new RuntimeException())));
-    }
-
-    // TODO Use StepVerifier to check that the flux parameter emits "foo" and "bar" elements then a RuntimeException error.
-    private void expectFooBarError(Flux<String> flux) {
-        fail();
+        stepVerifierTesting.expectFooBarError(Flux.just("foo", "bar").concatWith(Mono.error(new RuntimeException())));
     }
 
 //========================================================================================
 
     @Test
     public void expectElementsWithThenComplete() {
-        expectSkylerJesseComplete(Flux.just(new User("swhite", null, null), new User("jpinkman", null, null)));
-    }
-
-    // TODO Use StepVerifier to check that the flux parameter emits a User with "swhite" username and another one with "jpinkman" then completes successfully.
-    private void expectSkylerJesseComplete(Flux<User> flux) {
-        fail();
+        stepVerifierTesting.expectSkylerJesseComplete(Flux.just(new User("swhite", null, null), new User("jpinkman", null, null)));
     }
 
 //========================================================================================
 
     @Test
     public void count() {
-        expect10Elements(Flux.interval(Duration.ofSeconds(1)).take(10));
-    }
-
-    // TODO Expect 10 elements then complete and notice how long it takes for running the test
-    private void expect10Elements(Flux<Long> flux) {
-        fail();
+        stepVerifierTesting.expect10Elements(Flux.interval(Duration.ofSeconds(1)).take(10));
     }
 
 //========================================================================================
 
     @Test
     public void countWithVirtualTime() {
-        expect3600Elements(() -> Flux.interval(Duration.ofSeconds(1)).take(3600));
-    }
-
-    // TODO Expect 3600 elements then complete using the virtual time capabilities provided via StepVerifier.withVirtualTime() and notice how long it takes for running the test
-    private void expect3600Elements(Supplier<Flux<Long>> supplier) {
-        fail();
+        stepVerifierTesting.expect3600Elements(() -> Flux.interval(Duration.ofSeconds(1)).take(3600));
     }
 
 }
