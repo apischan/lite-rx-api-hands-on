@@ -1,6 +1,5 @@
 package io.pivotal.literx.testing;
 
-import io.pivotal.literx.testing.FluxTesting;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
