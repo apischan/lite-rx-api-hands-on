@@ -3,15 +3,9 @@ package io.pivotal.literx.testing;
 import io.pivotal.literx.domain.User;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
-import reactor.test.scheduler.VirtualTimeScheduler;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 class StepVerifierTesting {
 
@@ -42,6 +36,7 @@ class StepVerifierTesting {
 
     // TODO Expect 10 elements then complete and notice how long it takes for running the test
     void expect10Elements(Flux<Long> flux) {
+//        Duration length = StepVerifier.withVirtualTime(() -> flux)
         Duration length = StepVerifier.create(flux)
                 .expectNextCount(10)
                 .expectComplete()
@@ -50,9 +45,14 @@ class StepVerifierTesting {
         System.out.println(length.getSeconds());
     }
 
-    // TODO Expect 3600 elements then complete using the virtual time capabilities provided via StepVerifier.withVirtualTime() and notice how long it takes for running the test
+    // TODO Expect 3600 elements then complete using the virtual time capabilities provided via StepVerifier .withVirtualTime() and notice how long it takes for running the test
     void expect3600Elements(Supplier<Flux<Long>> supplier) {
-        throw new UnsupportedOperationException();
+        Duration verify = StepVerifier.withVirtualTime(supplier)
+                .thenAwait(Duration.ofMillis(5))
+                .expectNextCount(5)
+                .expectComplete()
+                .verify();
+        System.out.println(verify.getSeconds());
     }
 
 }

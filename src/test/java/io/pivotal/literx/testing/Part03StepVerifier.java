@@ -17,6 +17,7 @@
 package io.pivotal.literx.testing;
 
 import java.time.Duration;
+import java.util.List;
 
 import io.pivotal.literx.domain.User;
 
@@ -69,7 +70,9 @@ public class Part03StepVerifier {
 
     @Test
     public void countWithVirtualTime() {
-        stepVerifierTesting.expect3600Elements(() -> Flux.interval(Duration.ofSeconds(1)).take(3600));
+        stepVerifierTesting.expect3600Elements(
+                () -> Flux.interval(Duration.ofMillis(1)).take(5)
+        );
     }
 
 }
