@@ -40,9 +40,10 @@ public class MyHandler {
             try {
                 message.getCallback().onSuccessWithValue(null);
                 //completes immediately
-                // message.getCallback().onSuccess();
+//                message.getCallback().onSuccess();
             } catch(Exception e) {
                 e.printStackTrace();
+                throw e;
             }
         });
     }
