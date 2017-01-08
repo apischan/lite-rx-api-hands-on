@@ -12,7 +12,7 @@ public class MyClient {
                 .then(aVoid -> myHandler.handleMany(Flux.just("c", "d", "e", "f")))
                 .then(aVoid -> myHandler.handle("g"))
                 .block();
-
+        myHandler.complete();
     }
 
     public static void main(String[] args) {
